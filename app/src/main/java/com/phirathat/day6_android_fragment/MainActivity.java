@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         //ให้ใช้ getApplicationContext(); หรืแ Main.class
         // ---- Context ----
         EdittvFragment1();
-        replace_javafragment();
+        //replace_javafragment();
 
         btnAdd = findViewById(R.id.btnAdd);
         btnDelete = findViewById(R.id.btnDelete);
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.javaFragment,
-                                OneFragment.newInstance("Foo bar..."),
+                                OneFragment.newInstance("Send Success"),
                                 TAG )
                         .addToBackStack("MyStack")
                         .commit();
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG);
                 if(fragment != null) {
                     getSupportFragmentManager().popBackStack();
+                    Toast.makeText(getApplicationContext(),"Deleted",Toast.LENGTH_LONG).show();
                 }
 
 //                onBackPressed();
