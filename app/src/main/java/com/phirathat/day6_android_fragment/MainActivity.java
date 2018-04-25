@@ -1,5 +1,6 @@
 package com.phirathat.day6_android_fragment;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Context;
@@ -8,14 +9,19 @@ import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private Context mContext;
+
+    private Button btnDelete;
+    private Button btnAdd;
+    private String TAG = "MyFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +50,50 @@ public class MainActivity extends AppCompatActivity {
         EdittvFragment1();
         replace_javafragment();
 
+        btnAdd = findViewById(R.id.btnAdd);
+        btnDelete = findViewById(R.id.btnDelete);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.javaFragment,
+                                OneFragment.newInstance("Foo bar..."),
+                                TAG )
+                        .addToBackStack("MyStack")
+                        .commit();
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG);
+                if(fragment != null) {
+                    getSupportFragmentManager().popBackStack();
+                }
+
+//                onBackPressed();
+
+//                Fragment fragment = getSupportFragmentManager().findFragmentByTag(TAG);
+//                if(fragment != null) {
+//                    getSupportFragmentManager()
+//                            .beginTransaction()
+//                            .remove(fragment)
+//                            .commit();
+//                }
+
+            }
+        });
+
     }
 
     private void replace_javafragment() {
         JavaFragment fragment = new JavaFragment();
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.java_fragment, fragment);
+        transaction.replace(R.id.javaFragment, fragment);
         transaction.commit();
     }
 
